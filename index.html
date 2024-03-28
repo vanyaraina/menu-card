@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Menu Card</title>
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css"
+    /> -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-firestore.js"></script>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyAt3rkyQl6CzzBGkDlBC0d56-_wyuYoHcA",
+        authDomain: "menu-card-6eed8.firebaseapp.com",
+        projectId: "menu-card-6eed8",
+        storageBucket: "menu-card-6eed8.appspot.com",
+        messagingSenderId: "155944096228",
+        appId: "1:155944096228:web:d47c76a020687cd88af7f1",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <!-- Local StyleSheet -->
+    <script src="./components/addbutton.js"></script>
+    <script src="./components/markerhandler.js"></script>
+    <script src="./components/createMenuCard.js"></script>
+    <style>
+      button {
+        width: 120px;
+      }
+      #button-div {
+        display: none;
+        align-items: center;
+        justify-content: space-around;
+        position: fixed;
+        bottom: 10px;
+        left: 25px;
+        width: 100%;
+        z-index: 1;
+        border: 2px soild black;
+      }
+      .swal-icon img {
+        width: 80px;
+        height: 80px;
+      }
+    </style>
+
+    <!--Marker Handler Src-->
+  </head>
+
+  <body style="margin: 0px; overflow: hidden">
+    <a-scene
+      id="scene"
+      embedded
+      vr-mode-ui="enabled: false"
+      arjs="sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960;debugUIEnabled: false;"
+      gesture-detector
+      create-button
+    >
+      <a-assets>
+        <a-asset-item src="./pizza/scene.gltf" id="pizza"></a-asset-item>
+      </a-assets>
+
+      <!-- Camera -->
+      <a-entity camera position="0 0 10"></a-entity>
+
+      <a-marker
+        id="pizza"
+        type="pattern"
+        url="./pattern-pizza.patt"
+        cursor="rayOrigin: mouse"
+        markerhandler
+      >
+        <a-entity
+          id="pizz-model"
+          gltf-model="#pizza"
+          scale="0.1 0.1 0.1"
+          position="-1 -10 -5"
+          gesture-handler
+        ></a-entity>
+
+        <!-- orange -menu -->
+        <a-entity create-menucard></a-entity>
+      </a-marker>
+    </a-scene>
+
+    <!-- Button Main Div -->
+    <div id="button-div"></div>
+  </body>
+</html>
